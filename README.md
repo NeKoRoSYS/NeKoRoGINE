@@ -23,6 +23,7 @@ Project Goals:
 - Simple general-purpose game engine that I may or may not reuse in the future
 - Understand game development at a deeper level with minimal help from an LLM (strictly documentations and code snippets only)
 - Adapt better coding practices for more optimal, efficient, and readable code
+- Achieve a Source-esque gameplay vibe, and have similar toolsets like an equivalent of Hammer but for this engine
 
 TODO:
 - Implement the rest of the tech stack
