@@ -12,7 +12,10 @@ Tech Stack:
 - ImGui for Debug
 - GLM for math
 - miniaudio/FMOD for sounds
-- ECS
+
+Features:
+- Window rendering
+- Event system
 
 Project Goals:
 - Practice and understand the concepts of C++
@@ -20,6 +23,5 @@ Project Goals:
 - Understand game development at a deeper level with minimal help from a LLM (strictly documentations and code snippets only)
 - Adapt better coding practices for more optimal, efficient, and readable code
 
-Features:
-- Window rendering
-- Event system
+TODO:
+- Implement the rest of the tech stack
