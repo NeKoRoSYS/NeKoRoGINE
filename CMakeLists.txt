@@ -1,26 +1,18 @@
 cmake_minimum_required(VERSION 3.20)
-
 project(NeKoRoGINE VERSION 0.1.0 LANGUAGES CXX C)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-set(SDL3_DIR ${CMAKE_SOURCE_DIR}/vendor/SDL3)
-set(SDL3_INCLUDE_DIR ${SDL3_DIR}/include)
-set(SDL3_LIB_DIR ${SDL3_DIR}/lib/x64)
-set(SDL3_LIB ${SDL3_LIB_DIR}/SDL3.lib)
-set(SDL3_DLL ${SDL3_LIB_DIR}/SDL3.dll)
+add_library(glad STATIC vendor/glad/src/glad.c)
+target_include_directories(glad PUBLIC vendor/glad/include)
 
-set(GLAD_DIR ${CMAKE_SOURCE_DIR}/vendor/glad)
-set(GLAD_INCLUDE_DIR ${GLAD_DIR}/include)
-set(GLAD_SOURCE ${GLAD_DIR}/src/glad.c)
+add_library(stb_image STATIC vendor/stb/stb_image.cpp)
+target_include_directories(stb_image PUBLIC vendor/stb)
 
-set(GLM_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/vendor/glm)
-
-set(STB_DIR ${CMAKE_SOURCE_DIR}/vendor/stb)
-set(STB_IMAGE_INCLUDE ${GLAD_DIR}/stb_image.h)
-set(STB_IMAGE_SOURCE ${STB_DIR}/stb_image.cpp)
+list(APPEND CMAKE_PREFIX_PATH "${CMAKE_SOURCE_DIR}/vendor/SDL3")
+find_package(SDL3 REQUIRED)
 
 set(IMGUI_SOURCES
     vendor/imgui/imgui.cpp
@@ -31,35 +23,47 @@ set(IMGUI_SOURCES
     vendor/imgui/imgui_impl_sdl3.cpp
     vendor/imgui/imgui_impl_opengl3.cpp
 )
+add_library(imgui STATIC ${IMGUI_SOURCES})
+target_include_directories(imgui PUBLIC vendor/imgui)
 
-file(GLOB_RECURSE ENGINE_GLOB "src/*.cpp" "src/*.h")
+target_link_libraries(imgui PRIVATE SDL3::SDL3)
+
 set(ENGINE_SOURCES
     src/Engine/main.cpp
-    ${ENGINE_GLOB}
-    ${GLAD_SOURCE}
-    ${IMGUI_SOURCES}
-    ${STB_IMAGE_SOURCE}
+    src/Engine/Components/Application.cpp
+    src/Engine/Components/DebugMenu.cpp
+    src/Engine/Rendering/Renderer.cpp
+    src/Engine/Rendering/Shader.cpp
+    src/Engine/Rendering/Window.cpp
+    
+    src/Engine/Rendering/Buffer.cpp
+    src/Engine/Rendering/OpenGL/OpenGLBuffer.cpp
+    src/Engine/Rendering/OpenGL/OpenGLRenderCommand.cpp
 )
 
-add_executable(NeKoRoGINE ${ENGINE_SOURCES} )
+add_executable(NeKoRoGINE ${ENGINE_SOURCES})
 
 target_include_directories(NeKoRoGINE PRIVATE
-    vendor/imgui
-    ${SDL3_INCLUDE_DIR}
-    ${GLAD_INCLUDE_DIR}
-    "${CMAKE_CURRENT_SOURCE_DIR}/vendor"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src"
+    src
+    vendor
 )
 
-target_link_libraries(NeKoRoGINE PRIVATE ${SDL3_LIB})
+target_link_libraries(NeKoRoGINE PRIVATE
+    glad
+    stb_image
+    imgui
+    SDL3::SDL3
+)
 
 set_target_properties(NeKoRoGINE PROPERTIES 
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin
 )
 
-add_custom_command(TARGET NeKoRoGINE POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different
-    "${SDL3_DLL}"
-    "$<TARGET_FILE_DIR:NeKoRoGINE>"
-    COMMENT "Copying SDL3.dll to the output directory..."
-)
+if (WIN32)
+    add_custom_command(TARGET NeKoRoGINE POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        "${CMAKE_SOURCE_DIR}/vendor/SDL3/lib/x64/SDL3.dll"
+        "$<TARGET_FILE_DIR:NeKoRoGINE>"
+        COMMENT "Copying SDL3.dll to the output directory..."
+    )
+endif()

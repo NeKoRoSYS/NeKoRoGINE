@@ -22,11 +22,17 @@ Application::~Application() {
     debugMenu.Shutdown();
 }
 
-#include "Engine/Rendering/Mesh.h"
+#include "Engine/Rendering/Buffer.h"
 #include "Engine/Rendering/Shader.h"
 #include <vector>
 
-Mesh* CreateTestCube() {
+struct Vertex {
+    float position[3];
+    float normal[3];
+    float texCoords[2];
+};
+
+std::unique_ptr<VertexArray> CreateTestCube() {
     std::vector<Vertex> vertices = {
         {{-0.5f, -0.5f,  0.5f}, {0.0f, 0.0f, 1.0f}, {0.0f, 0.0f}},
         {{ 0.5f, -0.5f,  0.5f}, {0.0f, 0.0f, 1.0f}, {1.0f, 0.0f}},
@@ -47,7 +53,21 @@ Mesh* CreateTestCube() {
         3, 2, 6, 6, 7, 3 
     };
 
-    return new Mesh(vertices, indices); 
+    auto vertexArray = VertexArray::Create();
+
+    auto vertexBuffer = VertexBuffer::Create(
+        (float*)vertices.data(), 
+        vertices.size() * sizeof(Vertex)
+    );
+    vertexArray->AddVertexBuffer(std::move(vertexBuffer));
+
+    auto indexBuffer = IndexBuffer::Create(
+        indices.data(), 
+        indices.size()
+    );
+    vertexArray->SetIndexBuffer(std::move(indexBuffer));
+
+    return vertexArray;
 }
 
 void Application::Run() {
@@ -67,16 +87,20 @@ void Application::Run() {
     });
     registry.AddComponent(mainCamera, CameraComponent{});
 
-    Mesh* cubeMesh = CreateTestCube();
-    Shader* defaultShader = new Shader("../../assets/shaders/basic.vert", "../../assets/shaders/basic.frag");
+    std::unique_ptr<VertexArray> cubeVAO = CreateTestCube();
+    std::unique_ptr<Shader> defaultShader = std::make_unique<Shader>("../../assets/shaders/basic.vert", "../../assets/shaders/basic.frag");
+
+    AssetHandle cubeMeshHandle = AssetManager::Get().meshes.Add(std::move(cubeVAO));
+    AssetHandle shaderHandle = AssetManager::Get().shaders.Add(std::move(defaultShader));
 
     Entity cube = registry.CreateEntity();
     registry.AddComponent(cube, TransformComponent{
-        glm::vec3(0.0f, 0.0f, 0.0f), // At origin
+        glm::vec3(0.0f, 0.0f, 0.0f),
         glm::vec3(0.0f, 0.0f, 0.0f),
         glm::vec3(1.0f, 1.0f, 1.0f)
     });
-    registry.AddComponent(cube, RenderComponent{ cubeMesh, defaultShader });
+
+    registry.AddComponent(cube, RenderComponent{ cubeMeshHandle, shaderHandle, INVALID_ASSET_HANDLE });
 
     Uint64 lastTime = SDL_GetPerformanceCounter();
 

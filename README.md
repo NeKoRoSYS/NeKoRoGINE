@@ -16,7 +16,10 @@ Core Tech Stack:
 
 Custom Features:
 - Window rendering
+- Rendering Hardware Interface
 - Event system
+- Entity Component System
+- Load external meshes, shaders, and textures
 
 Project Goals:
 - Practice and understand the concepts of C++

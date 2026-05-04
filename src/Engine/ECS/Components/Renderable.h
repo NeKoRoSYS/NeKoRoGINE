@@ -1,8 +1,8 @@
-#include "Engine/Rendering/Mesh.h"
-#include "Engine/Rendering/Shader.h"
+#pragma once
+#include "Engine/Assets/AssetManager.h"
 
 struct RenderComponent {
-    Mesh* mesh = nullptr;
-    Shader* shader = nullptr;
-    unsigned int textureID = 0; 
+    AssetHandle meshHandle = INVALID_ASSET_HANDLE;
+    AssetHandle shaderHandle = INVALID_ASSET_HANDLE;
+    AssetHandle textureHandle = INVALID_ASSET_HANDLE; 
 };

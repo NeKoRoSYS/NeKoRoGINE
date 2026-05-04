@@ -3,7 +3,9 @@
 #include "Engine/ECS/Components/Transform.h"
 #include "Engine/ECS/Components/Renderable.h"
 #include "Engine/ECS/Components/Camera.h"
-#include <glm/glm.hpp>
+#include "Engine/Assets/AssetManager.h"
+#include "Engine/Rendering/RenderCommand.h"
+#include "Engine/Rendering/Shader.h"
 
 namespace RenderSystem {
     inline void Update(Registry& registry) {
@@ -27,17 +29,22 @@ namespace RenderSystem {
 
         for (size_t i = 0; i < renderArrayPtr->GetValidSize(); ++i) {
             auto& renderable = renderables[i];
-            if (!renderable.mesh || !renderable.shader) continue;
+            
+            VertexArray* vao = AssetManager::Get().meshes.Get(renderable.meshHandle);
+            Shader* shader = AssetManager::Get().shaders.Get(renderable.shaderHandle);
+
+            if (!vao || !shader) continue;
 
             Entity entity = indexToEntity[i];
             auto& transform = registry.GetComponent<TransformComponent>(entity);
 
-            renderable.shader->Use();
-            renderable.shader->SetMat4("u_View", view);
-            renderable.shader->SetMat4("u_Projection", projection);
-            renderable.shader->SetMat4("u_Model", transform.modelMatrix);
+            shader->Use();
+            shader->SetMat4("u_View", view);
+            shader->SetMat4("u_Projection", projection);
+            shader->SetMat4("u_Model", transform.modelMatrix);
 
-            renderable.mesh->Draw();
+            vao->Bind();
+            RenderCommand::DrawIndexed(vao);
         }
     }
 }
