@@ -1,8 +1,0 @@
-================================================================================
-Linker Errors
-Generated: 2026-05-04T12:32:20.210Z
-Total Errors: 1
-================================================================================
-
-[LNK1168] (MSVC)
-cannot open D:\Dev\NeKoRoGINE\bin\Debug\NeKoRoGINE.exe for writing [D:\Dev\NeKoRoGINE\build\NeKoRoGINE.vcxproj]

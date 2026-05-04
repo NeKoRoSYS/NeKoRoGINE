@@ -20,10 +20,15 @@ Custom Features:
 
 Project Goals:
 - Practice and understand the concepts of C++
-- Simple general-purpose game engine that I may or may not reuse in the future
+- Make a simple general-purpose game engine with a working game
+  - Achieve a Source-esque gameplay vibe, and have similar toolsets like an equivalent of Hammer but for this engine
 - Understand game development at a deeper level with minimal help from an LLM (strictly documentations and code snippets only)
 - Adapt better coding practices for more optimal, efficient, and readable code
-- Achieve a Source-esque gameplay vibe, and have similar toolsets like an equivalent of Hammer but for this engine
 
 TODO:
 - Implement the rest of the tech stack
+- Prototype the essentials:
+  - Test scene
+  - Camera view
+  - Player Movement
+  - Custom gameplay mechanics
