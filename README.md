@@ -19,14 +19,14 @@ The very foundation of the engine. As much as I want to reinvent the wheel to fu
 
 ```
 src
-└── Engine
-     ├── Assets
-     ├── Components
-     ├── ECS
-     ├── Events
-     └── Rendering
+├── Engine
+│    ├── Assets
+│    ├── Components
+│    ├── ECS
+│    ├── Events
+│    └── Rendering
 ├── CSharp
-     └── WIP
+│    └── WIP
 └── Game
      └── WIP
 ```
