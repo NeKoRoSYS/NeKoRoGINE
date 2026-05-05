@@ -2,7 +2,7 @@
 
 A generic game engine I made as a hobby and is by no means production-ready! Feel free to use as template or modify idk
 
-## Core Tech Stack:
+## Core Tech Stack
 The very foundation of the engine. As much as I want to reinvent the wheel to further deepen my understanding about the inner workings of game engines, I settled for established libraries when making the core of the engine.
 - C++ as main programming language
 - C# for client and gameplay logic
@@ -16,14 +16,15 @@ The very foundation of the engine. As much as I want to reinvent the wheel to fu
 - miniaudio/FMOD for sounds
 <br>
 
-## Custom Features:
+## Custom Features
 These are the systems and features of my engine that are quite specific and I deem to be worth manually making on top of the core. It's what makes NeKoRoGINE somewhat its own thing! :D
 - Rendering Hardware Interface - as I'm writing this, Minecraft got its Vulcan API support along the already-established OpenGL. As this engine grows, I'd rather avoid having nightmares refactoring the rendering engine just to support another graphics library.
 - Event system - Inputs and window events.
 - Entity Component System - I want to stray from Unity's OOP/GameObject workflow because Entities and Components are more performant.
 - Load external C# scripts, meshes, shaders, and textures.
+<br>
 
-Project Goals:
+## Project Goals
 - Practice and understand the concepts of C++.
 - Make a simple general-purpose game engine with a working game example.
   - Achieve a Source-esque gameplay vibe, and have similar toolsets like an equivalent of Hammer for level editing but for this engine.
@@ -33,7 +34,7 @@ Project Goals:
   - Decoupling
   - Single Responsibility
 
-TODO:
+## TODO
 - Implement the rest of the tech stack.
 - Prototype the essentials:
   - Test scene
