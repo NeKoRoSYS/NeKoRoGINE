@@ -104,14 +104,9 @@ public:
         }
         eventBus.Clear();
 
-        if (input.IsActionActive(InputAction::ToggleCameraMode)) {
-            cameraControllerSystem->SetCameraMode(window.GetNativeWindow(), true);
-        } else {
-            cameraControllerSystem->SetCameraMode(window.GetNativeWindow(), false);
-        }
-
-        cameraControllerSystem->Update(registry, deltaTime);
-        
+        bool cameraModeActive = input.IsActionActive(InputAction::ToggleCameraMode);
+        window.SetCursorEnabled(!cameraModeActive);
+        cameraControllerSystem->Update(registry, deltaTime, cameraModeActive);
         auto& modelTransform = registry.GetComponent<TransformComponent>(modelEntity);
         if (debugMenu.spinObject) {
             modelTransform.rotation.x += 45.0f * deltaTime;

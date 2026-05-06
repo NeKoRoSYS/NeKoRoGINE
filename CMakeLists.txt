@@ -43,6 +43,7 @@ set(ENGINE_SOURCES
     src/Core/Rendering/Shader.cpp
     src/Core/Rendering/Window.cpp
     src/Core/Rendering/Buffer.cpp
+    src/Core/Rendering/RendererAPI.cpp
     src/Core/Rendering/OpenGL/OpenGLBuffer.cpp
     src/Core/Rendering/OpenGL/OpenGLRenderCommand.cpp
     src/Core/Rendering/OpenGL/OpenGLTexture.cpp

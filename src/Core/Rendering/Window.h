@@ -12,4 +12,8 @@ class Window {
         void* GetProcAddress() { return (void*)SDL_GL_GetProcAddress; }
         SDL_Window* GetNativeWindow() { return window; }
         void Swap() { SDL_GL_SwapWindow(window); }
+
+        void SetCursorEnabled(bool enabled) {
+            SDL_SetWindowRelativeMouseMode(window, enabled ? false : true);
+        }
 };

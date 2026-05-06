@@ -3,19 +3,15 @@
 #include "Core/ECS/ECS.h"
 #include "Core/ECS/Components/Transform.h"
 #include "Core/ECS/Components/Camera.h"
-#include <SDL3/SDL.h>
 
 class CameraControllerSystem : public System {
 private:
     bool isRelativeModeEnabled = false; 
 
 public:
-    void SetCameraMode(SDL_Window* window, bool enabled) {
-        isRelativeModeEnabled = enabled;
-        SDL_SetWindowRelativeMouseMode(window, isRelativeModeEnabled);
-    }
 
-    void Update(Registry& registry, float deltaTime) {
+    void Update(Registry& registry, float deltaTime, bool isCameraActive) {
+        if (!isCameraActive) return;
         float moveSpeed = 5.0f * deltaTime;
         float mouseSensitivity = 0.2f;
         InputManager& input = InputManager::Get();
@@ -37,20 +33,15 @@ public:
             glm::vec3 right = glm::normalize(glm::cross(front, glm::vec3(0.0f, 1.0f, 0.0f)));
             glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
 
-            float mouseX, mouseY;
-            SDL_GetRelativeMouseState(&mouseX, &mouseY); 
+            transform.rotation.y += input.GetAxisValue(InputAxis::LookRight) * mouseSensitivity;
+            transform.rotation.x += input.GetAxisValue(InputAxis::LookUp) * mouseSensitivity;
 
-            if (isRelativeModeEnabled) {
-                transform.rotation.y += input.GetAxisValue(InputAxis::LookRight) * mouseSensitivity;
-                transform.rotation.x += input.GetAxisValue(InputAxis::LookUp) * mouseSensitivity;
+            if (transform.rotation.x > 89.0f) transform.rotation.x = 89.0f;
+            if (transform.rotation.x < -89.0f) transform.rotation.x = -89.0f;
 
-                if (transform.rotation.x > 89.0f) transform.rotation.x = 89.0f;
-                if (transform.rotation.x < -89.0f) transform.rotation.x = -89.0f;
-
-                transform.position += front * (input.GetAxisValue(InputAxis::MoveForward) * moveSpeed);
-                transform.position += right * (input.GetAxisValue(InputAxis::MoveRight) * moveSpeed);
-                transform.position += up * (input.GetAxisValue(InputAxis::MoveUp) * moveSpeed);
-            }
+            transform.position += front * (input.GetAxisValue(InputAxis::MoveForward) * moveSpeed);
+            transform.position += right * (input.GetAxisValue(InputAxis::MoveRight) * moveSpeed);
+            transform.position += up * (input.GetAxisValue(InputAxis::MoveUp) * moveSpeed);
         }
     }
 };

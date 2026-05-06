@@ -111,13 +111,9 @@ public:
         }
         eventBus.Clear();
 
-        if (input.IsActionActive(InputAction::ToggleCameraMode)) {
-            cameraControllerSystem->SetCameraMode(window.GetNativeWindow(), true);
-        } else {
-            cameraControllerSystem->SetCameraMode(window.GetNativeWindow(), false);
-        }
-
-        cameraControllerSystem->Update(registry, deltaTime);
+        bool cameraModeActive = input.IsActionActive(InputAction::ToggleCameraMode);
+        window.SetCursorEnabled(!cameraModeActive);
+        cameraControllerSystem->Update(registry, deltaTime, cameraModeActive);
         transformSystem->Update(registry);
 
         float aspectRatio = (float)windowWidth / (float)(windowHeight > 0 ? windowHeight : 1);
