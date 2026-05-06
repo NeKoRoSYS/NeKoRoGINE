@@ -37,6 +37,7 @@ src
 These are the systems and features of my engine that are quite specific and I deem to be worth manually making on top of the core. It's what makes NeKoRoGINE somewhat its own thing! :D
 - Rendering Hardware Interface - as I'm writing this, Minecraft got its Vulcan API support along the already-established OpenGL. As this engine grows, I'd rather avoid having nightmares refactoring the rendering engine just to support another graphics library.
 - Event system - Inputs and window events.
+  - Dedicated Input Manager - Similar to Unity Input System.
 - Entity Component System - I want to stray from Unity's OOP/GameObject workflow because Entities and Components are more performant.
 - Load external C# scripts, meshes, shaders, and textures.
 <br>
