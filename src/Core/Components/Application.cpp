@@ -70,6 +70,9 @@ void Application::HandleEvents() {
         }
         
         switch (event.type) {
+            case SDL_EVENT_WINDOW_CLOSE_REQUESTED:
+                eventBus.Push(WindowCloseEvent {});
+                break;
             case SDL_EVENT_WINDOW_RESIZED:
                 eventBus.Push(WindowResizeEvent{ event.window.data1, event.window.data2 });
                 break;

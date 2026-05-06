@@ -66,16 +66,14 @@ void InputManager::ProcessHardwareState(HardwareID id, bool isPressed, EventBus&
 void InputManager::ProcessRawEvent(const EngineEvent& event, EventBus& outEventBus) {
     std::visit([this, &outEventBus](auto&& e) {
         using T = std::decay_t<decltype(e)>;
-        
+                 
         if constexpr (std::is_same_v<T, KeyPressEvent>) {
-            if (!e.repeat) {
-                ProcessHardwareState(MapSDLToEngineKey(e.key), true, outEventBus); 
-            }
-        } 
-        else if constexpr (std::is_same_v<T, KeyPressEvent>) {
             if (!e.repeat) {
                 ProcessHardwareState(MapSDLToEngineKey(e.key), e.pressed, outEventBus); 
             }
+        } 
+        else if constexpr (std::is_same_v<T, MouseButtonEvent>) {
+            ProcessHardwareState(MapSDLToEngineMouse(e.button), e.pressed, outEventBus);
         }
         else if constexpr (std::is_same_v<T, MouseMotionEvent>) {
             currentMouseDeltas[MouseAxis::X] += e.xRel;
@@ -104,6 +102,9 @@ float InputManager::GetAxisValue(InputAxis axis) const {
         }
     }
 
+    if (totalValue > 1.0f) totalValue = 1.0f;
+    if (totalValue < -1.0f) totalValue = -1.0f;
+
     if (auto it = mouseAxisBindings.find(axis); it != mouseAxisBindings.end()) {
         for (const auto& bind : it->second) {
             if (auto mouseIt = currentMouseDeltas.find(bind.axis); mouseIt != currentMouseDeltas.end()) {
@@ -112,7 +113,5 @@ float InputManager::GetAxisValue(InputAxis axis) const {
         }
     }
 
-    if (totalValue > 1.0f) return 1.0f;
-    if (totalValue < -1.0f) return -1.0f;
-    return totalValue;
+    return totalValue; 
 }

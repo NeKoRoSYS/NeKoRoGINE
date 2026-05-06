@@ -20,7 +20,7 @@ public:
         float mouseSensitivity = 0.2f;
         InputManager& input = InputManager::Get();
 
-        if (input.IsActionActive(InputAction::Sprint)) moveSpeed = 5.0f * deltaTime;
+        if (input.IsActionActive(InputAction::Sprint)) moveSpeed = 2.5f * deltaTime;
 
         for (Entity entity : entities) {
             auto& camera = registry.GetComponent<CameraComponent>(entity);

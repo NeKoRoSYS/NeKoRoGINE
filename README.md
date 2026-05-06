@@ -31,7 +31,7 @@ The very foundation of the engine. As much as I want to reinvent the wheel to fu
 
 ```
 src
-├── Engine
+├── Core
 │    ├── Assets
 │    ├── Components
 │    ├── ECS
@@ -41,7 +41,7 @@ src
 │    └── WIP
 ├── Editor
 │    └── WIP
-└── Game
+└── Runtime
      └── WIP
 ```
 
