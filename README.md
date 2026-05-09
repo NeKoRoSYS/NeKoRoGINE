@@ -16,7 +16,7 @@ Pronounced as "necro-gear." It is a generic general-purpose 3D game engine I mad
 <br>
 
 ## Core Tech Stack
-The very foundation of the engine. As much as I want to reinvent the wheel to further deepen my understanding about the inner workings of game engines, I settled with using established libraries when making the core of the engine.
+The very foundation of the engine. As much as I want to reinvent the wheel to further deepen my understanding about the inner workings of game engines, I settled with using established libraries when making the core of the engine because I just want a safe and working solution for myself without ever having to be admitted to the psych ward.
 - C++ as main programming language
 - C# via hostfxr for client and gameplay logic
 - CMake for build automation
