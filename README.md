@@ -17,16 +17,16 @@ Pronounced as "necro-gear." It is a generic general-purpose 3D game engine I mad
 
 ## Core Tech Stack
 The very foundation of the engine. As much as I want to reinvent the wheel to further deepen my understanding about the inner workings of game engines, I settled with using established libraries when making the core of the engine because I just want a safe and working solution for myself without ever having to be admitted to the psych ward.
-- C++ as main programming language
-- C# via hostfxr for client and gameplay logic
-- CMake for build automation
-- SDL3 for window rendering and inputs
-- OpenGL3 via GLAD for graphics
-- stb_image for asset loading
-- Jolt Physics for physics simulations
-- ImGui for Debug/Editor menus
-- GLM for math calculations
-- miniaudio/FMOD for sounds
+- [C++](https://isocpp.org/) as main programming language
+- [C#](https://dotnet.microsoft.com/en-us/languages/csharp) via [hostfxr](https://github.com/dotnet/runtime/blob/main/src/native/corehost/hostfxr.h) for client and gameplay logic
+- [CMake](https://github.com/kitware/cmake) for build automation
+- [SDL3](https://github.com/libsdl-org/SDL) for window rendering and inputs
+- [OpenGL3](https://www.opengl.org/) via [glad](https://github.com/dav1dde/glad) for graphics
+- [stb_image](https://github.com/nothings/stb/blob/master/stb_image.h) for asset loading
+- [Jolt Physics](https://github.com/jrouwe/JoltPhysics) for physics simulations
+- [ImGui](https://github.com/ocornut/imgui) for Debug/Editor menus
+- [glm](https://github.com/g-truc/glm/releases) for math calculations
+- [miniaudio](https://github.com/mackron/miniaudio)/[FMOD](https://www.fmod.com/) for sounds
 <br>
 
 ```
